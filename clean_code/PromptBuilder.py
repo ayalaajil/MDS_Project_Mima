@@ -1,6 +1,6 @@
 from typing import List
 
-class PromptBuilder2:
+class PromptBuilder:
     def _init_(self) -> None:
         """
         Initialize the prompt generator.
