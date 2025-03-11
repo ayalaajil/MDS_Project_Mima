@@ -3,7 +3,7 @@ from transformers import AutoModelForCausalLM, AutoTokenizer, pipeline, BitsAndB
 
 class LLM:
     def __init__(self, 
-                token,
+                token= "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",
                 max_length: int = 300,
                 model_name: str = "iRASC/BioLlama-Ko-8B"):
         
