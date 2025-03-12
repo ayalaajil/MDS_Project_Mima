@@ -1,116 +1,46 @@
 class ExtractingPrompt:
     """
-    A class to generate prompts for extracting structured symptoms from patient dialogues
-    based on the PRO-CTCAE dataset.
+    A class to generate prompts for extracting structured symptoms from patient dialogues.
     """
-
-    def __init__(self) -> None:
+    def __init__(self, symptom_list: list[str]) -> None:
         """
-        Initialize the prompt generator. This can be extended with additional attributes
-        if needed in the future.
+        Initialize the prompt generator with a predefined list of symptoms.
         """
-        pass
+        self.symptom_list = symptom_list
 
     def build_extraction_prompt(self, dialogue: str) -> list[dict[str, str]]:
+
         """
-        Builds a structured prompt instructing the LLM to extract symptoms from the provided dialogue.
-
-        :param dialogue: The dialogue text from which to extract symptoms.
-        :return: A structured list of messages in a format suitable for LLM-based chat models.
+        Builds a prompt instructing the LLM to extract symptoms in a structured JSON format.
         """
-        dialogue = dialogue.strip()  # Ensures clean input
-
-        # ajouter les symptomes PRO CTCAE.......
-
+        # Join your list of 80 symptoms into a comma-separated string.
+        symptoms_str = ", ".join(self.symptom_list)
+        
         messages = [
             {
-                "role": "system",
+                "role": "system",                                                                             
                 "content": (
-                    "You are an AI assistant trained to extract structured symptoms from patient inputs "
-                    "based on the PRO-CTCAE dataset. You must identify and return only the symptoms mentioned, "
-                    "ensuring accuracy and completeness."
+                    "You are an AI assistant specialized in extracting medical symptoms. "
+                    "Given a patient dialogue, identify which symptoms from the provided list are mentioned. "
+                    "For each detected symptom, assign a confidence score between 0 and 1 indicating how likely it is present. "
+                    "Return your response as a JSON object where keys are symptom names (only those detected) and values are the corresponding scores. "
+                    "Only include a symptom if its score is above 0. "
+                    # "For example, for the following sentence: "
+                    # "I'm so scared, I've got these cracks at the corners of my mouth that won't go away, it's so painful and itchy, I'm so worried I'll get an infection. "
+                    # "You should output something like {'Cracking at the corners of the mouth (cheilosis/cheilitis)': 0.95, 'Dry Mouth': 0.05}"
+                    # "An other example, for the following sentence: "
+                    # "I've been having a dry mouth for a while now."
+                    # "You should output something like {'Dry Mouth': 1}"
                 ),
             },
             {
                 "role": "user",
                 "content": (
-                    "Identify and extract the symptoms described in the following patient statement:\n\n"
-                    f"\"{dialogue}\"\n\n"
-                    "Return only the symptoms, separated by commas if multiple, "
-                    "without any additional text, comments, or explanations."
+                    f"Patient dialogue: \"{dialogue.strip()}\"\n\n"
+                    f"Symptom list: [{symptoms_str}]\n\n"
+                    "Extract the symptoms and output them as instructed in valid JSON format."
                 ),
             },
         ]
-
-        return messages
-
-
-
-#  class Extracting_prompt:
-#     def __init__(self) -> None:
-#         """
-#         Initialize the prompt generator.
-#         """
-#         pass
-
-#     def build_extraction_prompt(self , dialogue: str) -> str:
-
-#         """
-#         Build a prompt that instructs the LLM to extract specific information
-#         from the provided dialogue.
-
-#         :param dialogue: (str) The dialogue text from which to extract details.
-#         :return: (str) A prompt message with extraction instructions.
-#         """
-#         messages = [
-#             {
-#                 "role": "system",
-#                 "content": f"You are a chatbot and you act as an assistant that extracts structured symptoms from patient inputs, based on the PRO-CTCAE dataset."
-#             },
-#             {
-#                 "role": "user", 
-#             }
-#         ]
         
-#         messages[1]['content'] = (
-
-#             "Find the symptoms described in the phrase : "
-
-#             f"{dialogue}\n"
-
-#             "Respond with only the extracted symptoms, enclosed in double quotes, without any additional text, comments, or notes."
-#         )
-
-#         return messages
-
-
-
-
-
-
-
-
-
-
-
-# "2. Find severity among this list:\n"
-# "   [Very severe, Not sexually active, Prefer not to answer, None, Not applicable, Moderate, Mild, Severe]\n\n"
-
-# "3. Find frequency among this list:\n"
-# "   [Almost constantly, Not sexually active, Prefer not to answer, Occasionally, Frequently, Never, Rarely]\n\n"
-
-# "4. Determine language_style from this list:\n"
-# "   ['Neutral/Standard Register', 'Informal Register', 'Formal Register', 'Poetic/Literary Register', 'Vulgar Register']\n\n"
-
-# "5. Determine Tone from this list:\n"
-# "   ['Confused', 'Neutral', 'Angry', 'Fearful', 'Friendly', 'Insulting']\n\n"
-
-# "6. Determine Detail_level on a scale from 1 to 5, where:\n"
-# "   1: a description very brief with minimal details.\n"
-# "   2: a description brief with some basic details.\n"
-# "   3: a description with a moderate level of detail.\n"
-# "   4: a description that is detailed and thorough.\n"
-# "   5: a description that is very detailed and comprehensive.\n\n"
-
-
-# "Please analyze the following dialogue and extract the following details:\n\n"
+        return messages
