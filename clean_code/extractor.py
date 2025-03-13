@@ -20,17 +20,19 @@ class ExtractingPrompt:
             {
                 "role": "system",                                                                             
                 "content": (
+
                     "You are an AI assistant specialized in extracting medical symptoms. "
                     "Given a patient dialogue, identify which symptoms from the provided list are mentioned. "
                     "For each detected symptom, assign a confidence score between 0 and 1 indicating how likely it is present. "
                     "Return your response as a JSON object where keys are symptom names (only those detected) and values are the corresponding scores. "
                     "Only include a symptom if its score is above 0. "
+
                     # "For example, for the following sentence: "
                     # "I'm so scared, I've got these cracks at the corners of my mouth that won't go away, it's so painful and itchy, I'm so worried I'll get an infection. "
-                    # "You should output something like {'Cracking at the corners of the mouth (cheilosis/cheilitis)': 0.95, 'Dry Mouth': 0.05}"
+                    # "You should output {'Cracking at the corners of the mouth (cheilosis/cheilitis)': 1}"
                     # "An other example, for the following sentence: "
                     # "I've been having a dry mouth for a while now."
-                    # "You should output something like {'Dry Mouth': 1}"
+                    # "You should output {'Dry Mouth': 1}"
                 ),
             },
             {
