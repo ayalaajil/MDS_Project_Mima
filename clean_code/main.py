@@ -15,6 +15,7 @@ from omegaconf import DictConfig, OmegaConf
 
 
 @hydra.main(config_path="conf", config_name="config")
+
 def main(cfg: DictConfig) -> None:
 
     # Initialize prompt builder and LLM with values from config.

@@ -45,12 +45,27 @@ class PromptBuilder:
             }
         ]
         
-        messages[1]['content'] += (
 
+        if isinstance(meta, list):
+
+            # Filter out unwanted entries
+            filtered_meta = [
+                (desc, val) for desc, val in zip(description, meta)
+                if val not in ['None', 'Prefer not to answer']]
+            
+            if filtered_meta:
+
+                descs, metas = zip(*filtered_meta)
+                messages[1]['content'] += (
+                    f"The {list(descs)} of the symptoms correspond to {list(metas)}, respectively. "
+                )
+
+        elif meta not in ['None', 'Prefer not to answer']:
+
+            messages[1]['content'] += (
                 f"The {description} of the symptom correspond to {meta}. "
             )
-        
-        
+
         # Specify the level of detail
         detail_instructions = {
             1: "The description should be very brief with minimal details.",
