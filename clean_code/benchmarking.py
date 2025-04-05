@@ -135,11 +135,9 @@ symptoms_list = ctcae['PRO-CTCAE PT'].unique()[:-25]
 
 extractor = ExtractingPrompt(symptoms_list)
 model_names = [
-    "meta-llama/Llama-3.2-3B-Instruct",
     "meta-llama/Meta-Llama-3-8B-Instruct",
     "iRASC/BioLlama-Ko-8B"
 ]
-
 
 benchmark = LLMBenchmark(
     model_names=model_names,
