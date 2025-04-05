@@ -1,4 +1,5 @@
 import os
+import itertools
 import random
 from datetime import datetime
 import numpy as np
@@ -42,36 +43,37 @@ def main(cfg: DictConfig) -> None:
             print(f"Error processing {symptom}: {e}")
 
 
-        # Calculate the total number of iterations for progress tracking.
+    # Calculate total iterations for progress tracking
     total_iterations = sum(
-        len(meta_list) 
-        for symptom in symptom_dict.values() 
-        for meta_list in symptom.values()
+        len(list(itertools.product(symptom.keys(), *symptom.values())))
+        for symptom in symptom_dict.values()
     )
     pbar = tqdm(total=total_iterations, desc="Generating dialogues")
 
     # Generate the dialogue data.
     data = []
-    for symptom in symptom_dict.keys():
-        for description in symptom_dict[symptom].keys():
-            for meta in symptom_dict[symptom][description]:
+
+    for symptom, descriptions in symptom_dict.items():
+
+        # Generate all (description, meta) combinations
+        description_meta_combinations = list(itertools.product(descriptions.keys(), *descriptions.values()))
+
+        for description, *meta_combinations in description_meta_combinations:
+
+            for meta_set in meta_combinations:
+                
                 detail_level = np.random.choice(cfg.generation.detail_levels)
-                enumeration = np.random.choice(
-                    [True, False], 
-                    p=cfg.generation.enumeration_probability
-                )
-                explicit_symptom = np.random.choice(
-                    [True, False], 
-                    p=cfg.generation.explicit_symptom_probability
-                )
+                enumeration = np.random.choice([True, False], p=cfg.generation.enumeration_probability)
+                explicit_symptom = np.random.choice([True, False], p=cfg.generation.explicit_symptom_probability)
                 language_style = random.choice(language_registers)['name']
                 tone = random.choice(discussion_tones)['name']
                 spelling_errors = random.choice([True, False])
-                
+
+
                 prompt = prompt_builder.build_prompt(
                     symptoms=[symptom],
                     description=description,
-                    meta=meta,
+                    meta=meta_set,
                     detail_level=detail_level,
                     enumeration=enumeration,
                     explicit_symptom=explicit_symptom,
@@ -79,19 +81,22 @@ def main(cfg: DictConfig) -> None:
                     spelling_errors=spelling_errors,
                     tone=tone
                 )
-                
-                phrase_generated = model.generate_text(messages=prompt)
-                data.append([
-                    phrase_generated, symptom, description, meta, language_style, tone,
-                    detail_level, enumeration, explicit_symptom, spelling_errors
-                ])
 
+            
+                phrase_generated = model.generate_text(messages=prompt)
+
+                data.append([
+                            phrase_generated, symptom, description, meta_set,
+                            language_style, tone, detail_level, enumeration, explicit_symptom, spelling_errors
+                            ])
+                        
                 # Update the progress bar for each generated sentence.
                 pbar.update(1)
 
     pbar.close()
 
     # Create a DataFrame from the generated data.
+
     df = pd.DataFrame(
         data,
         columns=[

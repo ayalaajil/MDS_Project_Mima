@@ -1,6 +1,7 @@
 from typing import List
 
 class PromptBuilder:
+    
     def _init_(self) -> None:
         """
         Initialize the prompt generator.
@@ -11,8 +12,8 @@ class PromptBuilder:
     def build_prompt(
             self,
             symptoms : list , 
-            description : str ,
-            meta : str , 
+            description : list ,
+            meta : list , 
             detail_level: float, 
             enumeration: bool = False, 
             explicit_symptom: bool = False, 
@@ -25,6 +26,7 @@ class PromptBuilder:
         """
         Construct a prompt based on the given parameters.
         """
+
         if not isinstance(symptoms, list) or not all(isinstance(s, str) for s in symptoms):
             raise ValueError("symptoms must be a list of strings.")
         
@@ -43,12 +45,12 @@ class PromptBuilder:
             }
         ]
         
-        
         messages[1]['content'] += (
-                f"The {description} of the symptom correspond to {meta} "
+
+                f"The {description} of the symptom correspond to {meta}. "
             )
         
-
+        
         # Specify the level of detail
         detail_instructions = {
             1: "The description should be very brief with minimal details.",

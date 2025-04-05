@@ -31,6 +31,7 @@ class LLM:
             bnb_4bit_compute_dtype=torch.bfloat16,
         )
 
+
         self.model = AutoModelForCausalLM.from_pretrained(
             model_name, 
             device_map="auto", 
