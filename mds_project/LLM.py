@@ -1,11 +1,13 @@
+import os
+import json
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer, pipeline, BitsAndBytesConfig
 
+
 class LLM:
     def __init__(self, 
-                token= "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",
                 max_length: int = 300,
-                model_name: str = "iRASC/BioLlama-Ko-8B"):
+                model_name: str = "meta-llama/Meta-Llama-3.1-8B-Instruct"):
         
         """
         Initialize the LLM model and its tokenizer.
@@ -14,8 +16,7 @@ class LLM:
         :param model_name: (str) Name of the model on Hugging Face Hub.
         """
 
-
-        self.token = token
+        self.token = json.load(open("config.json"))["token"]["token_key"]
 
         if not self.token:
             raise ValueError("Authentication token is missing. Set it in the environment or config.json.")
@@ -23,6 +24,14 @@ class LLM:
         self.tokenizer = AutoTokenizer.from_pretrained(model_name, use_auth_token=self.token)
 
         self.tokenizer.pad_token = self.tokenizer.eos_token or self.tokenizer.unk_token
+
+        # bnb_config = BitsAndBytesConfig(
+        #     load_in_4bit=True,
+        #     bnb_4bit_use_double_quant=True,
+        #     bnb_4bit_quant_type="nf4",
+        #     bnb_4bit_compute_dtype=torch.bfloat16,
+        #     llm_int8_enable_fp32_cpu_offload=True  # <--- ADD THIS
+        # )
 
         bnb_config = BitsAndBytesConfig(
             load_in_4bit=True,
@@ -33,9 +42,9 @@ class LLM:
 
 
         self.model = AutoModelForCausalLM.from_pretrained(
-            model_name, 
-            device_map="auto", 
-            quantization_config=bnb_config, 
+            model_name,
+            device_map="auto",
+            quantization_config=bnb_config,
             use_auth_token=self.token
         )
 
@@ -44,7 +53,7 @@ class LLM:
         self.generate_kwargs = {
                 "do_sample": True,
                 "temperature": 0.7,
-                "max_new_tokens": 200,
+                "max_new_tokens": 300,
                 "eos_token_id": self.tokenizer.eos_token_id,
                 "top_p": 0.9, 
                 "repetition_penalty": 1.2  # Penalize repetitive phrases
@@ -59,8 +68,9 @@ class LLM:
 
         print(f"Model loaded on device(s): {self.model.hf_device_map}")
 
-
     def generate_text(self, messages: list) -> str:
+
+
         """
         Generate text based on a list of messages (conversational format).
 
