@@ -1,12 +1,12 @@
 import pandas as pd
 from transformers import pipeline
 import ast
-from extractor import ExtractingPrompt
+from mds_project.extracting_prompt import ExtractingPrompt
 from LLM import LLM
 from tqdm import tqdm
 import re
 import numpy as np
-from extractor import ExtractingPrompt 
+from mds_project.extracting_prompt import ExtractingPrompt 
 
 import warnings
 warnings.filterwarnings('ignore')

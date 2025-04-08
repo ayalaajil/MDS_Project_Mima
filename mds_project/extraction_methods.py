@@ -1,7 +1,7 @@
 import pandas as pd
 from transformers import pipeline
 import ast
-from extractor import ExtractingPrompt
+from extracting_prompt import ExtractingPrompt
 from LLM import LLM
 from tqdm import tqdm
 import re
@@ -22,7 +22,9 @@ symptoms_list = symptoms_list.tolist()
 symptoms_list.remove('Other Symptoms')
 
 
-df_lists = {"multi_poisson_correl" : df_multi_poisson_correl, "multi_poisson" : df_multi_poisson, "multi_predef": df_multi_predef, "one_symptom": df_onesymptom}
+#df_lists = {"multi_poisson_correl" : df_multi_poisson_correl, "multi_poisson" : df_multi_poisson, "multi_predef": df_multi_predef, "one_symptom": df_onesymptom}
+
+df_lists = {"one_symptom": df_onesymptom}
 
 def extract_symptom_scores(output_str):
     # This pattern matches a key enclosed in single or double quotes followed by a colon and a number (integer or float)

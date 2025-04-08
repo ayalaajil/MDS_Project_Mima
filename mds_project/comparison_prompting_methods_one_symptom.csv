@@ -1,0 +1,26 @@
+,metric,value_few_shot
+0,Hamming Loss,0.14
+1,Micro F1-score,0.0
+2,Macro F1-score,0.0
+3,Weighted F1-score,0.0
+4,Jaccard Index (Macro),0.0
+5,Subset Accuracy,0.0
+6,Mean Average Precision (MAP),0.31
+7,Accuracy (Average),0.86
+8,Accuracy (Alpha-Softmax),0.98
+9,Accuracy (Alpha-Softmin),0.15
+10,Precision (Average),0.37
+11,Precision (Alpha-Softmax),0.99
+12,Precision (Alpha-Softmin),0.0
+13,Recall (Average),0.63
+14,Recall (Alpha-Softmax),1.0
+15,Recall (Alpha-Softmin),0.01
+16,Avg False Positives Over all samples,1.19
+17,Avg False Negatives Over all samples,11.06
+18,FP Distribution,[1 1 1 ... 1 5 1]
+19,FN Distribution,[21 21 21 ... 11 11 11]
+20,Avg Work Saved,-0.11
+21,Avg Precision (per sample),0.0
+22,Avg Recall (per sample),0.0
+23,Avg F1 (per sample),0.0
+24,Avg Jaccard (per sample),0.0

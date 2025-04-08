@@ -10,6 +10,7 @@ from PromptBuilder import PromptBuilder
 from metadata import language_registers, discussion_tones
 
 def get_combinations(symptom, symptom_data):
+    
     # Extract the attribute lists for the symptom
     attributes = symptom_data[symptom]
     # Get the attribute names (keys) and corresponding lists (values)
