@@ -24,7 +24,7 @@ symptoms_list.remove('Other Symptoms')
 
 #df_lists = {"multi_poisson_correl" : df_multi_poisson_correl, "multi_poisson" : df_multi_poisson, "multi_predef": df_multi_predef, "one_symptom": df_onesymptom}
 
-df_lists = {"one_symptom": df_onesymptom}
+df_lists = {"multi_predef": df_multi_predef}
 
 def extract_symptom_scores(output_str):
     # This pattern matches a key enclosed in single or double quotes followed by a colon and a number (integer or float)
@@ -46,11 +46,11 @@ model = LLM(model_name="iRASC/BioLlama-Ko-8B", max_length=50)
 
 # List of prompting methods to test:
 prompting_methods = [
-    "explicit",
-    "zero_shot",
-    "few_shot",
-    "chain_of_thought",
-    "self_refinement",
+    # "explicit",
+    # "zero_shot",
+    # "few_shot",
+    # "chain_of_thought",
+    # "self_refinement",
     "multiple_demonstrations"
 ]
 

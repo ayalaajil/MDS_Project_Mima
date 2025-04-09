@@ -295,26 +295,36 @@ def Evaluation_pipeline(df) :
 
     return df_metrics
 
+def Evaluation_pipeline_one_symptom(df) : 
+    
+    true_symptoms = [el for el in list(df['True_Symptom'])]
+    extracted_symptoms = [[ast.literal_eval(el)[i] for i in range(len(ast.literal_eval(el)))][0] for el in list(df['Extracted_Symptom'])]
+    evaluator = SymptomMultiLabelEvaluator(true_symptoms, extracted_symptoms)
+    evaluation_results = evaluator.evaluate()
+
+    df_metrics = evaluation_to_dataframe(evaluation_results)
+
+    return df_metrics
+
 
 prompting_methods = [
-    # "explicit",
-    # "zero_shot",
-    # "few_shot",
-    # "chain_of_thought",
-    # "self_refinement",
-    # "multiple_demonstrations",
-    "explicit_with_RAG",
-    "zero_shot_with_RAG",
-    "few_shot_with_RAG",
-    "chain_of_thought_with_RAG",
-    "self_refinement_with_RAG",
-    "multiple_demonstrations_with_RAG"
+    "explicit",
+    "zero_shot",
+    "few_shot",
+    "chain_of_thought",
+    "self_refinement",
+    "multiple_demonstrations",
+    # "explicit_with_RAG",
+    # "zero_shot_with_RAG",
+    # "few_shot_with_RAG",
+    # "chain_of_thought_with_RAG",
+    # "self_refinement_with_RAG",
+    # "multiple_demonstrations_with_RAG"
 ]
 
 data_names = [
     "dataset_extracting_multi_poisson_correl",
     "dataset_extracting_multi_poisson",
-    "dataset_extracting_multi_poisson_correl",
     "dataset_extracting_multi_predef",
     "dataset_extracting_one_symptom"
 ]
@@ -329,15 +339,21 @@ for data_name in data_names :
         try:
 
             path = f"{data_name}_{method}.csv"
-            
             df_path = pd.read_csv(path)
+            print(path)
             df_path['Extracted_Symptom'] = df_path['Extracted_Symptom'].apply(lambda x: [s.strip() for s in str(x).split(',')])
             df_path['Extracted_Symptom'] = df_path['Extracted_Symptom'].apply(lambda lst: str(lst))
+                
+            if data_name[-11:] == 'one_symptom': 
+                print("One symptom dataset")
+                result = Evaluation_pipeline_one_symptom(df_path)
+  
+            else : 
+                print("Multi Symptom dataset")
+                result = Evaluation_pipeline(df_path)
             
-            result = Evaluation_pipeline(df_path)
-
             list_all.append(result[['metric', 'value']].set_index('metric').rename(columns={'value': f'value_{method}'}))
-        
+            
         except Exception as e : 
             print(e)
         

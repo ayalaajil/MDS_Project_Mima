@@ -1,0 +1,26 @@
+,metric,value_explicit,value_zero_shot,value_few_shot,value_chain_of_thought,value_self_refinement,value_multiple_demonstrations
+0,Hamming Loss,0.14,0.07,0.07,0.09,0.1,0.06
+1,Micro F1-score,0.64,0.81,0.8,0.73,0.68,0.84
+2,Macro F1-score,0.5,0.64,0.6,0.56,0.5,0.72
+3,Weighted F1-score,0.67,0.81,0.8,0.73,0.68,0.84
+4,Jaccard Index (Macro),0.36,0.51,0.48,0.42,0.37,0.6
+5,Subset Accuracy,0.33,0.62,0.58,0.48,0.31,0.67
+6,Mean Average Precision (MAP),0.4,0.53,0.51,0.46,0.43,0.62
+7,Accuracy (Average),0.86,0.93,0.93,0.91,0.9,0.94
+8,Accuracy (Alpha-Softmax),0.94,0.95,0.95,0.94,0.94,0.96
+9,Accuracy (Alpha-Softmin),0.71,0.91,0.91,0.87,0.83,0.93
+10,Precision (Average),0.6,0.64,0.62,0.61,0.62,0.73
+11,Precision (Alpha-Softmax),0.86,0.81,0.83,0.85,0.88,0.85
+12,Precision (Alpha-Softmin),0.19,0.2,0.17,0.17,0.13,0.28
+13,Recall (Average),0.62,0.76,0.74,0.65,0.56,0.79
+14,Recall (Alpha-Softmax),0.86,0.88,0.86,0.8,0.81,0.88
+15,Recall (Alpha-Softmin),0.27,0.23,0.25,0.36,0.24,0.33
+16,Avg False Positives Over all samples,5.45,2.31,2.21,2.26,2.31,1.57
+17,Avg False Negatives Over all samples,2.31,1.42,1.59,2.62,3.29,1.36
+18,FP Distribution,[0 4 0 ... 2 0 0],[0 0 0 ... 2 2 0],[0 3 0 ... 2 2 0],[0 0 0 ... 3 0 0],[0 0 0 ... 3 0 0],[0 0 0 ... 2 0 1]
+19,FN Distribution,[ 0 10  0 ...  4  0  4],[ 0  0  0 ...  4 10  0],[ 4 15  4 ...  4  4  4],[ 4  0  4 ... 11  0  4],[ 4 14  0 ... 11 13  4],[0 0 0 ... 4 0 4]
+20,Avg Work Saved,-0.13,0.44,0.44,0.34,0.26,0.56
+21,Avg Precision (per sample),0.61,0.8,0.8,0.77,0.7,0.83
+22,Avg Recall (per sample),0.73,0.83,0.81,0.7,0.62,0.84
+23,Avg F1 (per sample),0.64,0.8,0.79,0.69,0.63,0.83
+24,Avg Jaccard (per sample),0.55,0.75,0.74,0.63,0.55,0.78
