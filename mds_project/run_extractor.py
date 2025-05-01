@@ -1,7 +1,7 @@
 import pandas as pd
 from transformers import pipeline
 import ast
-from extractor import ExtractingPrompt
+from extracting_prompt import ExtractingPrompt
 from LLM import LLM
 from tqdm import tqdm
 import re

@@ -60,7 +60,6 @@ prompt_builder = PromptBuilder()
 num_phrases = 1000
 data = []
 
-# List of all symptoms available in the dictionary.
 symptom_list = list(Dict.keys())
 
 for i in range(num_phrases):

@@ -9,7 +9,7 @@ from LLM import LLM
 from PromptBuilder import PromptBuilder
 from metadata import language_registers, discussion_tones
 import json
-from generate_many_symptoms_1 import truncated_poisson
+from mds_project.generate_many_symptoms_Poisson_distribution import truncated_poisson
 
 def get_combinations(symptom, symptom_data):
     # Extract the attribute lists for the symptom
@@ -97,17 +97,16 @@ def smart_select_symptoms(num_symptoms, symptom_list, correlation_matrix):
         for candidate in candidates:
             weight = 1.0
             for sel in selected:
-                # Determine the order of 'sel' and 'candidate' in the original symptom_list.
+                
                 if symptom_list.index(sel) < symptom_list.index(candidate):
-                    # sel comes before candidate, so look up directly.
+                   
                     corr = correlation_matrix.get(sel, {}).get(candidate, 0.5)
                 else:
-                    # candidate comes before sel, so look up using candidate as the key.
+                    
                     corr = correlation_matrix.get(candidate, {}).get(sel, 0.5)
                 weight *= corr
             candidate_weights.append(weight)
-        
-        # Normalize the weights to form a probability distribution.
+
         total_weight = sum(candidate_weights)
         probabilities = [w / total_weight for w in candidate_weights]
         

@@ -13,6 +13,7 @@ def get_combinations(symptom, symptom_data):
     
     # Extract the attribute lists for the symptom
     attributes = symptom_data[symptom]
+    
     # Get the attribute names (keys) and corresponding lists (values)
     attribute_names = list(attributes.keys())
     attribute_values = list(attributes.values())
@@ -20,7 +21,7 @@ def get_combinations(symptom, symptom_data):
     # Generate all combinations using itertools.product
     combinations = list(itertools.product(*attribute_values))
     
-    # Optionally, pair each combination with its corresponding attribute names:
+    # Pair each combination with its corresponding attribute names:
     combinations_named = [
         dict(zip(attribute_names, combination)) for combination in combinations
     ]
